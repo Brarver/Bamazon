@@ -59,11 +59,97 @@ var connection = mysql.createConnection({
   //////////////////////////// VIEW LOW INVENTORY ////////////////////////////////////////////////////
 
   function viewLowInventory() {
-      connection.query("SELECT * FROM products WHERE stock_quantity=?", [5, 4, 3, 2, 1, 0] , function(err, res) {
+      connection.query("SELECT * FROM products WHERE stock_quantity<5", function(err, res) {
             if (err) throw err;
-            console.log(res[0])
+            for (var i = 0; i < res.length; i++) {
+                console.log(res[i])
+            }
             connection.end()
       })
   }
 
-  ///////////config low inventory query
+  /////////////////////////////ADD TO INVENTORY ////////////////////////////////////////////////////////
+
+  function addToInventory() {
+      inquirer
+        .prompt([
+            {
+                name: 'product',
+                type: 'input',
+                message: 'What item would you like to add inventory to?'
+            },
+            {
+                name: 'amount',
+                type: 'input',
+                message: 'How many would you like to add to inventory?'
+            }
+        ])
+        .then(function (answer) {
+            connection.query("SELECT stock_quantity FROM products WHERE product_name=?", [answer.product], function (err, res) {
+                if (err) throw err
+                for (var i = 0; i < res.length; i++) {
+                    /////////////Trying to pull existing quantity to save as variable
+                    console.log(res[i] + 'test')
+                }
+                console.log(res + 'test')
+            })
+            connection.query("UPDATE products SET ? WHERE ?",
+            [
+                {
+                    stock_quantity: + answer.amount
+                },
+                {
+                    product_name: answer.product
+                }
+            ],
+            function(err, res) {
+                if (err) throw err
+
+            }
+            )
+        })
+  }
+
+
+
+  /////////////////////////////////ADD NEW PRODUCT/////////////////////////////////////////////////////
+
+  function addNewProduct() {
+      inquirer
+        .prompt([
+            {
+                name: 'product',
+                type: 'input',
+                message: 'What product do you want to add to your inventory?'
+            },
+            {
+                name: 'department',
+                type: 'input',
+                message: 'What department will your product be in?'
+            },
+            {
+                name: 'price',
+                type: 'input',
+                message: 'What is the price of your product?'
+            },
+            {
+                name: 'quantity',
+                type: 'input',
+                message: 'How many are you adding to your inventory?'
+            }
+        ])
+        .then(function(answer) {
+            connection.query("INSERT INTO products SET ?",
+            {
+                product_name: answer.product,
+                department_name: answer.department,
+                price: answer.price,
+                stock_quantity: answer.quantity
+            },
+            function(err, res) {
+                if (err) throw err
+                console.log(answer.quantity + ' ' + answer.product + '\'s where added to the '  + answer.department + ' department.')
+                connection.end()
+            })
+        })
+  }
