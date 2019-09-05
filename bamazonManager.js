@@ -85,28 +85,12 @@ var connection = mysql.createConnection({
             }
         ])
         .then(function (answer) {
-            connection.query("SELECT stock_quantity FROM products WHERE product_name=?", [answer.product], function (err, res) {
+            // connection.query("SELECT stock_quantity FROM products WHERE product_name=?", [answer.product], function (err, res) {
+                connection.query("UPDATE products SET stock_quantity= stock_quantity + ? WHERE product_name=?", [answer.amount, answer.product], function (err, res) {
                 if (err) throw err
-                for (var i = 0; i < res.length; i++) {
-                    /////////////Trying to pull existing quantity to save as variable
-                    console.log(res[i] + 'test')
-                }
-                console.log(res + 'test')
+                console.log('You added ' + answer.amount + ' units to the item ' + answer.product)
+                connection.end()
             })
-            connection.query("UPDATE products SET ? WHERE ?",
-            [
-                {
-                    stock_quantity: + answer.amount
-                },
-                {
-                    product_name: answer.product
-                }
-            ],
-            function(err, res) {
-                if (err) throw err
-
-            }
-            )
         })
   }
 
