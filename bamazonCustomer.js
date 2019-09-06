@@ -20,6 +20,7 @@ var connection = mysql.createConnection({
 
 
 ////////////////////DISPLAY ITEMS////////////////////////////////////////////////////////////////////
+
   function displayItems() {
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
@@ -32,6 +33,7 @@ var connection = mysql.createConnection({
   }
 
 /////////////////////////////////PURCHASE ITEM//////////////////////////////////////////////////////////
+
   function purchaseItem() {
       inquirer
         .prompt([
@@ -71,7 +73,9 @@ var connection = mysql.createConnection({
                         ],
                         function(error) {
                           if (error) throw err;
+                          var total = answer.quantity * res[0].price
                           displayCost(answer.quantity, res[0].price)
+                          addToSales(answer.id, total)
 
                         }
                       );
@@ -87,5 +91,16 @@ var connection = mysql.createConnection({
 
   function displayCost(quantity, price) {
       console.log('Your order has been fufilled! Your total cost is $' + (quantity * price))
-      connection.end()
+  
+  }
+
+  //////////////////////////// ADD TO PRODUCT SALES //////////////////////////////////////////////////////
+
+  function addToSales(id, total) {
+        
+        connection.query("UPDATE products SET product_sales = IFNULL(product_sales, 0) + ? WHERE id=?", [total, id], function(err, res) {
+                  if (err) throw err
+                  connection.end()
+
+        })
   }
