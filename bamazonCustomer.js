@@ -76,7 +76,6 @@ var connection = mysql.createConnection({
                           var total = answer.quantity * res[0].price
                           displayCost(answer.quantity, res[0].price)
                           addToSales(answer.id, total)
-
                         }
                       );
                 } else {

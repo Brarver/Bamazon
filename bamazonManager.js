@@ -25,8 +25,8 @@ var connection = mysql.createConnection({
       .prompt({
         name: "menu",
         type: "list",
-        message: "Please select an option below \n --------------------------------------",
-        choices: ["VIEW PRODUCTS FOR SALE", "VIEW LOW INVENTORY", "ADD TO INVENTORY", "ADD NEW PRODUCT"]
+        message: "Please select an option below",
+        choices: ["VIEW PRODUCTS FOR SALE", "VIEW LOW INVENTORY", "ADD TO INVENTORY", "ADD NEW PRODUCT", "EXIT"]
       })
       .then(function(answer) {
         if (answer.menu === "VIEW PRODUCTS FOR SALE") {
@@ -37,8 +37,8 @@ var connection = mysql.createConnection({
           addToInventory()
         } else if (answer.menu === "ADD NEW PRODUCT") {
           addNewProduct()
-        } else {
-            connnection.end()
+        } else if (answer.menu === "EXIT") {
+            connection.end()
         }
       });
   }
@@ -49,10 +49,10 @@ var connection = mysql.createConnection({
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
         for (var i = 0; i < res.length; i++) {
-          console.log(res[i].id + " | " + res[i].product_name + " | " + "$" + res[i].price);
+          console.log(res[i].id + " | " + res[i].product_name + " | " + "$" + res[i].price + " | " + res[i].stock_quantity + " left");
         }
         console.log("-----------------------------------");
-        connection.end()
+        start()
       }); 
   }
 
@@ -61,10 +61,14 @@ var connection = mysql.createConnection({
   function viewLowInventory() {
       connection.query("SELECT * FROM products WHERE stock_quantity<5", function(err, res) {
             if (err) throw err;
+            console.log('-----------------------------------------')
             for (var i = 0; i < res.length; i++) {
-                console.log(res[i])
+                
+                console.log("id: " + res[i].id + " | " + res[i].product_name + " | " + res[i].stock_quantity + " left")
+                
             }
-            connection.end()
+            console.log('-----------------------------------------')
+            start()
       })
   }
 
@@ -88,8 +92,10 @@ var connection = mysql.createConnection({
             // connection.query("SELECT stock_quantity FROM products WHERE product_name=?", [answer.product], function (err, res) {
                 connection.query("UPDATE products SET stock_quantity= stock_quantity + ? WHERE product_name=?", [answer.amount, answer.product], function (err, res) {
                 if (err) throw err
+                console.log('-----------------------------------------')
                 console.log('You added ' + answer.amount + ' units to the item ' + answer.product)
-                connection.end()
+                console.log('-----------------------------------------')
+                start()
             })
         })
   }
@@ -132,8 +138,10 @@ var connection = mysql.createConnection({
             },
             function(err, res) {
                 if (err) throw err
-                console.log(answer.quantity + ' ' + answer.product + '\'s where added to the '  + answer.department + ' department.')
-                connection.end()
+                console.log('-----------------------------------------')
+                console.log(answer.quantity + ' ' + answer.product + ' where added to the '  + answer.department + ' department.')
+                console.log('-----------------------------------------')
+                start()
             })
         })
   }
