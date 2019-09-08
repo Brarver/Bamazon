@@ -105,6 +105,15 @@ var connection = mysql.createConnection({
   /////////////////////////////////ADD NEW PRODUCT/////////////////////////////////////////////////////
 
   function addNewProduct() {
+    var departments = []
+    connection.query("SELECT department_name FROM products GROUP BY department_name", function (err, res) {
+      for (var i = 0; i < res.length; i++) {
+        var obj = res[i]
+        var key = Object.keys(obj)[0]
+        var value = obj[key]
+        departments.push(value)
+      }
+    })
       inquirer
         .prompt([
             {
@@ -114,8 +123,9 @@ var connection = mysql.createConnection({
             },
             {
                 name: 'department',
-                type: 'input',
-                message: 'What department will your product be in?'
+                type: 'list',
+                message: 'Please select which department this product will be in',
+                choices: departments
             },
             {
                 name: 'price',

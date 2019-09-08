@@ -45,7 +45,8 @@ function start() {
 function displayTable() {
 
     var productSalesList = []
-    connection.query("SELECT departmentName, SUM(product_sales) AS product_sales FROM departments LEFT JOIN products ON departments.departmentName = products.department_name GROUP BY departmentName;", function (err, res) {
+
+    connection.query("SELECT departmentName, SUM(product_sales) AS product_sales FROM departments INNER JOIN products ON departments.departmentName = products.department_name GROUP BY departmentName;", function (err, res) {
         if (err) throw err
         for (var i = 0; i < res.length; i++) {
           var figure = res[i].product_sales
@@ -54,6 +55,7 @@ function displayTable() {
           }
           productSalesList.push(figure)
         }
+        console.log(productSalesList)
     })
 
 
