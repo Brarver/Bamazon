@@ -44,21 +44,6 @@ function start() {
 
 function displayTable() {
 
-    var productSalesList = []
-
-    connection.query("SELECT departmentName, SUM(product_sales) AS product_sales FROM departments INNER JOIN products ON departments.departmentName = products.department_name GROUP BY departmentName;", function (err, res) {
-        if (err) throw err
-        for (var i = 0; i < res.length; i++) {
-          var figure = res[i].product_sales
-          if (figure === null) {
-            figure = 0
-          }
-          productSalesList.push(figure)
-        }
-        console.log(productSalesList)
-    })
-
-
     connection.query("SELECT * FROM departments", function(err, res) {
         if (err) throw err
 
@@ -68,13 +53,17 @@ function displayTable() {
         });
          
         for (var i = 0; i < res.length; i++) {
+          var ds = res[i].department_sales
+          if (ds === null) {
+            ds = 0
+          }
           
             var arr = []
             arr.push(res[i].id)
             arr.push(res[i].departmentName)
             arr.push(res[i].over_head_costs)
-            arr.push(productSalesList[i])
-            arr.push(productSalesList[i] - res[i].over_head_costs)
+            arr.push(ds)
+            arr.push(ds - res[i].over_head_costs)
             table.push(arr)
         }
          

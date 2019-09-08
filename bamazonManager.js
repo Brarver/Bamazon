@@ -89,7 +89,7 @@ var connection = mysql.createConnection({
             }
         ])
         .then(function (answer) {
-            // connection.query("SELECT stock_quantity FROM products WHERE product_name=?", [answer.product], function (err, res) {
+            
                 connection.query("UPDATE products SET stock_quantity= stock_quantity + ? WHERE product_name=?", [answer.amount, answer.product], function (err, res) {
                 if (err) throw err
                 console.log('-----------------------------------------')

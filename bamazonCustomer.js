@@ -55,11 +55,13 @@ var connection = mysql.createConnection({
             }
         ])
         .then(function (answer) {
+
             connection.query("SELECT * FROM products WHERE id=?", [answer.id], function(err, res) {
+              console.log(res[0].department_name)
                 if (err) throw err;
                 var amountLeft = res[0].stock_quantity
 
-                if (res[0].stock_quantity > answer.quantity) {
+                if (res[0].stock_quantity >= answer.quantity) {
                     amountLeft -= answer.quantity
                     connection.query(
                         "UPDATE products SET ? WHERE ?",
@@ -76,11 +78,14 @@ var connection = mysql.createConnection({
                           var total = answer.quantity * res[0].price
                           displayCost(answer.quantity, res[0].price)
                           addToSales(answer.id, total)
+                          addToDepartmentSales(total, res[0].department_name)
                         }
                       );
                 } else {
                     displayItems()
+                    console.log('----------------------------------------------------------------')
                     console.log('Insufficient amount in inventory. Please try a different order.')
+                    console.log('----------------------------------------------------------------')
                 }
             })
         })
@@ -102,4 +107,13 @@ var connection = mysql.createConnection({
                   connection.end()
 
         })
+  }
+
+  //////////////////////////// ADD TO DEPARTMENT SALES ///////////////////////////////////////////////
+
+  function addToDepartmentSales(total, department) {
+    connection.query("UPDATE departments SET department_sales = IFNULL(department_sales, 0) + ? WHERE departmentName =?", [total, department], function(err, res) {
+      console.log(total + " added to " + department)
+    }
+    )
   }
