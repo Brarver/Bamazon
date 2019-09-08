@@ -32,6 +32,7 @@
 * This will display your products and inventory. 
 
 (3 toothbrushes have been deducted from the total inventory of 50)
+
 ![screenshot](./images/managerviewproducts.png)
 
 ##### View Low Inventory
@@ -45,9 +46,11 @@
 * Type in the name of the item you would like to add inventory to followed by the quantity to add.
 
 (before addition)
+
 ![screenshot](./images/addinventory1.png)
 
 (after addition)
+
 ![screenshot](./images/addinventory2.png)
 
 ##### Add new product
