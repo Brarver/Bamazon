@@ -32,7 +32,7 @@ CREATE TABLE departments (
 	id INT NOT NULL AUTO_INCREMENT,
     departmentName VARCHAR(45) NULL,
     over_head_costs DECIMAL(10,2) NULL,
-    -- department_sales VARCHAR(45) NULL,
+    department_sales VARCHAR(45) NULL,
     PRIMARY KEY (id)
 );
 
