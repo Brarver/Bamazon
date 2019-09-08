@@ -57,7 +57,7 @@ var connection = mysql.createConnection({
         .then(function (answer) {
 
             connection.query("SELECT * FROM products WHERE id=?", [answer.id], function(err, res) {
-              console.log(res[0].department_name)
+              
                 if (err) throw err;
                 var amountLeft = res[0].stock_quantity
 
@@ -113,7 +113,7 @@ var connection = mysql.createConnection({
 
   function addToDepartmentSales(total, department) {
     connection.query("UPDATE departments SET department_sales = IFNULL(department_sales, 0) + ? WHERE departmentName =?", [total, department], function(err, res) {
-      console.log(total + " added to " + department)
+      
     }
     )
   }
