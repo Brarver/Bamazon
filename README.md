@@ -8,7 +8,7 @@
 
 * A sample database is provided within the bamazon.sql file.
 
-### CUSTOMER VIEW
+## CUSTOMER VIEW
 
 * type "node bamazonCustomer.js" to initalize app
 
@@ -19,7 +19,7 @@
 (3 toothbrushes have been purchased)
 ![screenshot](./images/customerpurchase.png)
 
-### Manager View
+## MANAGER VIEW
 
 * type "node bamazonManager.js" to initialize manager view
 
@@ -27,7 +27,7 @@
 
 ![screenshot](./images/managerprompt.png)
  
-##### View Products for Sale
+#### View Products for Sale
 
 * This will display your products and inventory. 
 
@@ -35,13 +35,13 @@
 
 ![screenshot](./images/managerviewproducts.png)
 
-##### View Low Inventory
+#### View Low Inventory
 
 * This will display items that are currenlty below 5 in stock.
 
 ![screenshot](./images/viewlowinventory.png)
 
-##### Add to Inventory
+#### Add to Inventory
 
 * Type in the name of the item you would like to add inventory to followed by the quantity to add.
 
@@ -53,7 +53,7 @@
 
 ![screenshot](./images/addinventory2.png)
 
-##### Add new product
+#### Add new product
 
 * This will return a series of prompts that will allow you to add an item to inventory.
 
@@ -63,18 +63,18 @@
 
 ![screenshot](./images/addproduct2.png)
 
-### Supervisor View
+## SUPERVISOR VIEW
 
 * type "node bamazonSupervisor.js" to initialize supervisor view
 
 * Select an option from the prompt
 
-##### View Products Sales by Department
+#### View Products Sales by Department
 
 (3 toothbrushes were purchased in the previous example.)
 ![screenshot](./images/table.png)
 
-##### Create New Department
+#### Create New Department
 
 * Follow the prompts to create a new department. Select 'VIEW PRODUCT SALES BY DEPARTMENT'  to view your new department.
 
